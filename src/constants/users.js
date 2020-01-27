@@ -1,0 +1,2 @@
+export const ADD_USERS_BEGIN   = "ADD_USERS_BEGIN";
+export const ADD_USERS_SUCCESS = "ADD_USERS_SUCCESS";
