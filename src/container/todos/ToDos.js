@@ -28,7 +28,7 @@ class ToDos extends Component {
     showDeleteConfirm = (todo) => {
         confirm({
             title: 'Are you sure for deleting this ToDo?',
-            content: 'Name: ' + todo.name,
+            content: 'Action Name: ' + todo.action,
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
@@ -46,14 +46,19 @@ class ToDos extends Component {
             if (err) {
                 return;
             }
-            let data = {...this.props.todos.todosData, [values.email]: values};
+            let formatedValues = {
+                ...values,
+                dateAdded: values['dateAdded'].format('YYYY-MM-DD HH:mm:ss')
+            };
+            console.log(formatedValues);
+            let data = {...this.props.todos.todosData, [formatedValues.action]: formatedValues};
             this.props.addToDos(data, this.showModal);
         });
     };
 
     handleDelete = (todo) => {
         let data = {...this.props.todos.todosData};
-        delete data[todo.email];
+        delete data[todo.action];
         this.props.deleteToDos(data);
     };
 
@@ -66,19 +71,19 @@ class ToDos extends Component {
         const tableToDosData = Object.values(todosData);
         const columns = [
             {
-                title: 'ToDo Name',
-                dataIndex: 'name',
-                key: 'name',
+                title: 'Action Name',
+                dataIndex: 'action',
+                key: 'action',
                 render: text => <a>{text}</a>,
             },
             {
-                title: 'Email ID',
-                dataIndex: 'email',
-                key: 'email',
+                title: 'Date Added',
+                dataIndex: 'dateAdded',
+                key: 'dateAdded',
             },
             {
-                title: 'Action',
-                key: 'action',
+                title: 'Actions',
+                key: 'actions',
                 render: (text, row) => (
                     <span>
                 <Button type="link" size="small" onClick={() => this.showModal(row)}>
@@ -97,7 +102,7 @@ class ToDos extends Component {
                 <Button type="back" onClick={() => this.showModal()}>
                     Create ToDo
                 </Button>
-                <Table columns={columns} dataSource={tableToDosData} rowKey={row => row.email}/>
+                <Table columns={columns} dataSource={tableToDosData} rowKey={row => row.action}/>
                 <CustomModal type='todos' visible={this.state.visible} loading={loading} showModal={this.showModal}
                              handleSave={this.handleSave} selectedToDoData={this.state.selectedToDoData}
                              wrappedComponentRef={this.saveFormRef}/>

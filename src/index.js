@@ -10,12 +10,18 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import rootReducer from './reducers/rootReducer';
 
+import { persistStore } from 'redux-persist'
+import { PersistGate } from 'redux-persist/integration/react'
+
 // use applyMiddleware to add the thunk middleware to the store
 const store = createStore(rootReducer, applyMiddleware(thunk));
+const reduxPersistStore = persistStore(store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={reduxPersistStore}>
+            <App />
+        </PersistGate>
     </Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

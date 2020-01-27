@@ -77,8 +77,8 @@ class Users extends Component {
                 key: 'email',
             },
             {
-                title: 'Action',
-                key: 'action',
+                title: 'Actions',
+                key: 'actions',
                 render: (text, row) => (
                     <span>
                 <Button type="link" size="small" onClick={() => this.showModal(row)}>

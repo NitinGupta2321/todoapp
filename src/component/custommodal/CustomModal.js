@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Modal, Button, Form, Input} from 'antd';
+import {Modal, Button, Form, Input, DatePicker, TimePicker} from 'antd';
+import moment from 'moment';
 
 const CustomModal = Form.create({name: 'user_form_in_modal'})(
     class extends Component {
@@ -62,21 +63,19 @@ const CustomModal = Form.create({name: 'user_form_in_modal'})(
                 ]}
             >
                 <Form layout="vertical">
-                    <Form.Item label="ToDo Name">
-                        {getFieldDecorator('name', {
-                            initialValue: selectedToDoData && selectedToDoData.name,
-                            rules: [{required: true, message: 'Please input the name of the ToDo'},
+                    <Form.Item label="Action Name">
+                        {getFieldDecorator('action', {
+                            initialValue: selectedToDoData && selectedToDoData.action,
+                            rules: [{required: true, message: 'Please input the action name of the ToDo'},
                                 {max: 20, message: 'Maximum characters limit is 20.'},
                                 {type: 'string', message: 'Name should contain alphabets only.'}]
                         })(<Input/>)}
                     </Form.Item>
-                    <Form.Item label="Email">
-                        {getFieldDecorator('email', {
-                            initialValue: selectedToDoData && selectedToDoData.email,
-                            rules: [{required: true, message: 'Please input the email of the ToDo'},
-                                {max: 20, message: 'Maximum characters limit is 20.'},
-                                {type: 'email', message: 'Email should be like: abc@abc.com'}]
-                        })(<Input/>)}
+                    <Form.Item label="Date & Time">
+                        {getFieldDecorator('dateAdded', {
+                            initialValue: selectedToDoData && selectedToDoData.dateAdded ? moment(selectedToDoData.dateAdded, 'YYYY-MM-DD HH:mm:ss'): undefined,
+                            rules: [{ type: 'object', required: true, message: 'Please select time!' }]
+                        })(<DatePicker showTime format="YYYY-MM-DD HH:mm:ss" style={{ width: '100%' }} />)}
                     </Form.Item>
                 </Form>
             </Modal>);
